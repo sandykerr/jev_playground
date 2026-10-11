@@ -1,0 +1,366 @@
+[
+  {
+    "id": "fm_checkpoint_comparison",
+    "task": "Compare Peter checkpoints for CHM with head-only versus staged fine-tuning.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "fm_model",
+      "fm_dataset",
+      "fm_tracker",
+      "fm_runbook"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "fm_model",
+      "fm_dataset",
+      "fm_tracker",
+      "fm_runbook"
+    ],
+    "workflows": [
+      "foundation_model"
+    ]
+  },
+  {
+    "id": "fm_resume",
+    "task": "Resume the foundation-model smoke run and check the checkpoint identity.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "fm_model",
+      "fm_tracker",
+      "fm_runbook"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "fm_model",
+      "fm_tracker",
+      "fm_runbook"
+    ],
+    "workflows": [
+      "foundation_model"
+    ]
+  },
+  {
+    "id": "wm_resume",
+    "task": "Resume world-model pretraining after the DDP failure.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "wm_index",
+      "wm_skill",
+      "wm_handoff",
+      "wm_runbook"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "wm_index",
+      "wm_skill",
+      "wm_handoff",
+      "wm_runbook"
+    ],
+    "workflows": [
+      "world_model"
+    ]
+  },
+  {
+    "id": "wm_normalization",
+    "task": "Review world-model normalization statistics and P7 gates.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "wm_index",
+      "wm_skill",
+      "wm_handoff",
+      "wm_dataset",
+      "wm_preparation"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "wm_index",
+      "wm_skill",
+      "wm_handoff",
+      "wm_dataset",
+      "wm_preparation"
+    ],
+    "workflows": [
+      "world_model"
+    ]
+  },
+  {
+    "id": "geographic_leakage",
+    "task": "Audit geographic leakage and overlap in the frozen release.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "geo_skill",
+      "geo_context",
+      "geo_pointer",
+      "geo_overlap",
+      "geo_runbook"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "geo_skill",
+      "geo_context",
+      "geo_pointer",
+      "geo_overlap",
+      "geo_runbook",
+      "geo_plan"
+    ],
+    "workflows": [
+      "geography"
+    ]
+  },
+  {
+    "id": "raster_crs",
+    "task": "Fix raster CRS equivalence and alignment validation.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "tiling_skill",
+      "tiling_context",
+      "tiling_hpc"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "tiling_skill",
+      "tiling_context",
+      "tiling_hpc"
+    ],
+    "workflows": [
+      "tiling"
+    ]
+  },
+  {
+    "id": "materialization",
+    "task": "Review multimodal materialization and dataset validity.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "tiling_skill",
+      "tiling_context",
+      "tiling_hpc",
+      "wm_dataset",
+      "wm_handoff",
+      "wm_index"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "tiling_skill",
+      "tiling_context",
+      "tiling_hpc",
+      "wm_dataset",
+      "wm_handoff",
+      "wm_index"
+    ],
+    "workflows": [
+      "tiling"
+    ]
+  },
+  {
+    "id": "fm_plots",
+    "task": "Create foundation-model checkpoint prediction galleries for CHM.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "fm_model",
+      "fm_dataset",
+      "fm_tracker",
+      "fm_plots"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "fm_model",
+      "fm_dataset",
+      "fm_tracker",
+      "fm_plots"
+    ],
+    "workflows": [
+      "foundation_model"
+    ]
+  },
+  {
+    "id": "historical_migration",
+    "task": "Explain fm_latest_ckpt_plan.md and identify current decisions.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "fm_migration",
+      "fm_model",
+      "fm_tracker",
+      "fm_index"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "fm_migration",
+      "fm_model",
+      "fm_tracker",
+      "fm_index"
+    ],
+    "workflows": [
+      "foundation_model"
+    ]
+  },
+  {
+    "id": "explicit_path",
+    "task": "Read .agents/repo_context/world_model/README.md.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "wm_index",
+      "wm_skill"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "wm_index",
+      "wm_skill"
+    ],
+    "workflows": [
+      "world_model"
+    ]
+  },
+  {
+    "id": "ambiguous_readme",
+    "task": "Read README.md.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy"
+    ],
+    "workflows": []
+  },
+  {
+    "id": "ambiguous_chm",
+    "task": "Investigate CHM errors.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy"
+    ],
+    "workflows": []
+  },
+  {
+    "id": "unrelated_code",
+    "task": "Fix Python string formatting in a utility.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy"
+    ],
+    "workflows": []
+  },
+  {
+    "id": "both_models",
+    "task": "Compare foundation model and world model scientific goals.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "wm_index",
+      "wm_skill",
+      "wm_plan",
+      "fm_tracker",
+      "fm_runbook",
+      "fm_dataset"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "fm_index",
+      "wm_index",
+      "wm_skill",
+      "wm_plan",
+      "fm_tracker",
+      "fm_runbook",
+      "fm_dataset"
+    ],
+    "workflows": [
+      "foundation_model",
+      "world_model"
+    ]
+  },
+  {
+    "id": "routing_changes",
+    "task": "Update the Jev routing catalog and compaction tests.",
+    "require": [],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "routing_docs"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "routing_docs"
+    ],
+    "workflows": [
+      "routing"
+    ]
+  },
+  {
+    "id": "required_source",
+    "task": "Review the selected source.",
+    "require": [
+      "geo_overlap"
+    ],
+    "must_read": [
+      "instructions",
+      "execution_policy",
+      "geo_overlap",
+      "geo_context",
+      "geo_pointer",
+      "geo_skill"
+    ],
+    "allowed_read": [
+      "instructions",
+      "execution_policy",
+      "geo_overlap",
+      "geo_context",
+      "geo_pointer",
+      "geo_skill"
+    ],
+    "workflows": [
+      "geography"
+    ]
+  }
+]

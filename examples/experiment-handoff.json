@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "objective": "Describe the active experiment or task",
+  "workflows": [
+    "world_model"
+  ],
+  "code_revision": null,
+  "configuration": null,
+  "container": null,
+  "dataset_identity": null,
+  "split_identity": null,
+  "checkpoint": null,
+  "authoritative_sources": [],
+  "decisions": [],
+  "validation": [],
+  "jobs": [],
+  "unresolved_questions": [],
+  "next_action": "Record the next concrete step"
+}

@@ -1,0 +1,712 @@
+{
+  "schema_version": 1,
+  "workflows": {
+    "foundation_model": {
+      "keywords": [
+        "foundation model",
+        "foundation-model",
+        "AE + ViT",
+        "AE+ViT",
+        "Peter",
+        "checkpoint comparison",
+        "head-only",
+        "staged fine-tuning",
+        "notebooks/sandy/fm",
+        "fm"
+      ],
+      "validation": [
+        "Read fm_tracker for execution evidence and fm_runbook for maintained commands; preserve scene-disjoint splits, frozen AE, checkpoint identity and validation-only selection.",
+        "Configuration/serialization mocks may run locally; real checkpoint, raster, smoke/resume and held-out evaluation run in the project container on HPC.",
+        "Collect per-run config/checkpoint/split identity, seed, exit status and compact validation/test reports; a submitted array is not a verified result."
+      ]
+    },
+    "world_model": {
+      "keywords": [
+        "world model",
+        "world-model",
+        "pretraining",
+        "P7",
+        "DDP",
+        "normalization",
+        "masked predictive",
+        "encoder",
+        "fusion"
+      ],
+      "validation": [
+        "Read wm_handoff before selecting the next gate; preserve its selected dataset and checkpoint/code identity, train-only statistics and CHM supervision-only role.",
+        "Use wm_preparation for audit/fit and bounded GPU gates, wm_runbook for training/resume; real data, GPU execution and throughput measurements are HPC-only.",
+        "Collect the gate report, code/config/container/dataset identities, checkpoint and resume evidence; local mocks do not establish training readiness."
+      ]
+    },
+    "geography": {
+      "keywords": [
+        "geographic",
+        "geography",
+        "site selection",
+        "reservations",
+        "overlap",
+        "frozen release",
+        "frozen splits",
+        "leakage",
+        "allocation"
+      ],
+      "validation": [
+        "Read geo_skill and geo_context, then canonical pointer and release runbook; preserve frozen memberships and overlap exclusions.",
+        "Pure selection/identity mocks may run locally; real allocation, containment, separation, overlap and population audits run on HPC.",
+        "Collect parent/exclusion identities, membership/separation/overlap reports and outcome counts. Do not regenerate or promote frozen releases implicitly."
+      ]
+    },
+    "tiling": {
+      "keywords": [
+        "tiling",
+        "raster",
+        "materialization",
+        "materialize",
+        "CRS",
+        "GDAL",
+        "alignment",
+        "chip validity",
+        "producer",
+        "modality staging"
+      ],
+      "validation": [
+        "Read tiling_skill and tiling_context for producer contracts, then tiling_hpc for containerized Slurm execution.",
+        "Compare CRS semantically while preserving exact dimensions, rotated affine grids, alignment, dtype and nodata. Equivalent/different CRS regression cases require HPC when using GDAL/Rasterio.",
+        "Keep local checks to pure mocks/configuration. Collect accepted/rejected/failed counts, manifest and artifact identities and resume/publication evidence from HPC."
+      ]
+    },
+    "routing": {
+      "keywords": [
+        "jev",
+        "routing",
+        "router",
+        "compaction",
+        "context catalog",
+        "experiment handoff"
+      ],
+      "validation": [
+        "Run the focused jev_routing/tests suite using only standard-library fixtures and the fake App Server.",
+        "Evaluate expected required sources, false skips, extra reads and workflow confusion with evaluate_routing.py; no live service calls unless --live is explicitly selected.",
+        "Use --workers (default SLURM_CPUS_PER_TASK, otherwise 1); actual serial/parallel timing comparisons belong on HPC. Live App Server and Jev compatibility require separate checks."
+      ]
+    }
+  },
+  "documents": {
+    "instructions": {
+      "path": "AGENTS.md",
+      "description": "Repository execution, worker allocation and semantic CRS requirements",
+      "owns": "Mandatory repository instructions",
+      "status": "instructions",
+      "workflows": [],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": true,
+      "entrypoint": false
+    },
+    "execution_policy": {
+      "path": ".agents/local_hpc_testing_protocol.md",
+      "description": "Local-safe checks versus HPC-only processing and validation",
+      "owns": "Execution location and evidence requirements",
+      "status": "instructions",
+      "workflows": [],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": true,
+      "entrypoint": false
+    },
+    "fm_index": {
+      "path": ".agents/repo_context/foundation_model/README.md",
+      "description": "Existing AE + ViT workflow entry point; separate from world-model pretraining",
+      "owns": "Workflow identity and reading map",
+      "status": "current",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "fm_model": {
+      "path": ".agents/repo_context/foundation_model/foundation_model_context.md",
+      "description": "AE + ViT checkpoint architecture and task adaptation controls",
+      "owns": "Current foundation-model architecture and checkpoint decisions",
+      "status": "current",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [
+        "checkpoint",
+        "checkpoints",
+        "architecture",
+        "head-only",
+        "adaptation",
+        "fine-tuning"
+      ],
+      "sections": [],
+      "requires": [
+        "fm_index"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "fm_dataset": {
+      "path": ".agents/repo_context/foundation_model/dataset_context.md",
+      "description": "Foundation-model labeled chips, scene/group splits and label preprocessing",
+      "owns": "FM dataset and leakage controls; not world-model site splits",
+      "status": "current",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [
+        "dataset",
+        "split",
+        "splits",
+        "CHM",
+        "burn",
+        "compare",
+        "comparison",
+        "leakage"
+      ],
+      "sections": [],
+      "requires": [
+        "fm_index"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "fm_tracker": {
+      "path": "docs/foundation_model/pnelson_checkpoint_testing_progress.txt",
+      "description": "Recorded FM commands, jobs, fixes, results and artifact paths",
+      "owns": "Detailed FM execution history; distinguish reported and verified results",
+      "status": "current",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [
+        "Peter",
+        "compare",
+        "comparison",
+        "resume",
+        "job",
+        "jobs",
+        "status",
+        "results",
+        "checkpoint",
+        "checkpoints",
+        "run",
+        "test"
+      ],
+      "sections": [],
+      "requires": [
+        "fm_index"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "fm_runbook": {
+      "path": "docs/foundation_model/fm_hpc_entrypoints.md",
+      "description": "Maintained Slurm/container entry points for checkpoint validation, smoke and comparison",
+      "owns": "Command interfaces; use tracker for actual execution status and paths",
+      "status": "current",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [
+        "compare",
+        "comparison",
+        "smoke",
+        "resume",
+        "run",
+        "test",
+        "HPC",
+        "launch",
+        "validate",
+        "validation"
+      ],
+      "sections": [
+        "3. Validate selected pretrained checkpoints before full experiments",
+        "4. Run a bounded end-to-end smoke job",
+        "5. Run controlled checkpoint comparisons",
+        "6. Evaluate the selected configuration on held-out data"
+      ],
+      "requires": [
+        "fm_tracker"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "fm_plots": {
+      "path": "docs/foundation_model/fm_checkpoint_test_suite.md",
+      "description": "Saved-checkpoint evaluation and matching prediction/error galleries",
+      "owns": "Checkpoint evaluation/plot interface; verify HPC results separately",
+      "status": "current",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [
+        "plot",
+        "plots",
+        "gallery",
+        "galleries",
+        "held-out",
+        "evaluation"
+      ],
+      "sections": [],
+      "requires": [
+        "fm_dataset",
+        "fm_tracker"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "fm_migration": {
+      "path": "docs/foundation_model/archive/fm_latest_ckpt_plan.md",
+      "description": "Original checkpoint migration rationale and pre-implementation findings",
+      "owns": "Historical migration motivation; not current defects or run status",
+      "status": "historical",
+      "workflows": [
+        "foundation_model"
+      ],
+      "keywords": [
+        "migration",
+        "historical"
+      ],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [
+        "fm_model",
+        "fm_tracker"
+      ],
+      "always": false,
+      "entrypoint": false
+    },
+    "wm_index": {
+      "path": ".agents/repo_context/world_model/README.md",
+      "description": "World-model scientific goals, authority map and workflow entry point",
+      "owns": "World-model workflow identity and reading map",
+      "status": "current",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "wm_skill": {
+      "path": ".agents/skills/lecospy-world-model/SKILL.md",
+      "description": "World-model architecture, normalization, masking and training requirements",
+      "owns": "Reusable model development and scientific invariants",
+      "status": "instructions",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [
+        "wm_index"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "wm_handoff": {
+      "path": ".agents/repo_context/world_model/world_model_pretraining_handoff.md",
+      "description": "Selected world-model dataset, training/checkpoint state, returned job evidence and next gates",
+      "owns": "Current pretraining input and execution status; read Resume here first",
+      "status": "current",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [
+        "resume",
+        "pretraining",
+        "P7",
+        "DDP",
+        "normalization",
+        "job",
+        "jobs",
+        "status",
+        "train",
+        "training",
+        "launch",
+        "run"
+      ],
+      "sections": [
+        "Resume here",
+        "Active dataset and provenance"
+      ],
+      "requires": [
+        "wm_index"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "wm_architecture": {
+      "path": "docs/world_model/model/world_model_architecture_proposal.md",
+      "description": "Architecture rationale, fixed constraints, proposed defaults and implementation roadmap",
+      "owns": "Architecture decisions by section; older pending execution statements may be historical",
+      "status": "mixed",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [
+        "architecture",
+        "encoder",
+        "fusion",
+        "masking",
+        "roadmap"
+      ],
+      "sections": [
+        "3\u201315: architecture and controls",
+        "20.1: operational roadmap"
+      ],
+      "requires": [
+        "wm_skill"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "wm_dataset": {
+      "path": "docs/world_model/tiling/model_dataset_contract.md",
+      "description": "Tensor, modality, temporal, validity, identity and loading contract",
+      "owns": "Materialization/loading semantics; selected derivatives and status belong to wm_handoff",
+      "status": "mixed",
+      "workflows": [
+        "world_model",
+        "tiling"
+      ],
+      "keywords": [
+        "dataset",
+        "normalization",
+        "tensor",
+        "modality",
+        "validity",
+        "materialization"
+      ],
+      "sections": [],
+      "requires": [
+        "wm_handoff"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "wm_preparation": {
+      "path": "notebooks/sandy/world_model/model/P7_PREPARATION.md",
+      "description": "P7 audit, approval, training-only statistics and bounded reader/GPU gates",
+      "owns": "Preparation interfaces; not evidence that a selected run passed",
+      "status": "current",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [
+        "P7",
+        "audit",
+        "statistics",
+        "normalization",
+        "GPU",
+        "gate",
+        "gates"
+      ],
+      "sections": [
+        "1. Audit the full pretraining materialization",
+        "4. Bounded real-reader/GPU gates"
+      ],
+      "requires": [
+        "wm_handoff"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "wm_runbook": {
+      "path": "notebooks/sandy/world_model/model/README.md",
+      "description": "Model implementation, Lightning/HPC launch and smoke/resume interfaces",
+      "owns": "Model code and maintained training commands",
+      "status": "current",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [
+        "DDP",
+        "resume",
+        "smoke",
+        "train",
+        "training",
+        "pretraining",
+        "launch",
+        "HPC"
+      ],
+      "sections": [],
+      "requires": [
+        "wm_handoff"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "wm_plan": {
+      "path": "docs/world_model/HSI_Model_Plan_v3_verbose.txt",
+      "description": "Scientific purpose and benchmark rationale with historical population/product proposals",
+      "owns": "Section 1 scientific goals; later population choices are not current defaults",
+      "status": "mixed",
+      "workflows": [
+        "world_model"
+      ],
+      "keywords": [
+        "scientific",
+        "rationale",
+        "benchmark",
+        "goals"
+      ],
+      "sections": [
+        "1: Purpose and objectives",
+        "6\u20137: experiment/evaluation rationale"
+      ],
+      "requires": [
+        "wm_index"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "geo_skill": {
+      "path": ".agents/skills/lecospy-geographic-sampling/SKILL.md",
+      "description": "Site allocation, reservations, split/overlap policy and frozen release review",
+      "owns": "Geographic selection and release invariants",
+      "status": "instructions",
+      "workflows": [
+        "geography"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [
+        "geo_context"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "geo_context": {
+      "path": ".agents/repo_context/world_model/geographic_sampling_and_aviris_processing.md",
+      "description": "Adopted frozen populations, source-quality evidence and geographic processing policy",
+      "owns": "Current sampling and source-processing decisions",
+      "status": "current",
+      "workflows": [
+        "geography"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "geo_plan": {
+      "path": "docs/world_model/tiling/pretraining_finetuning_joint_geographic_sampling_planning.md",
+      "description": "Joint pretraining/fine-tuning geography and canonical artifact section",
+      "owns": "Geographic design and canonical artifact mapping; early trials historical",
+      "status": "mixed",
+      "workflows": [
+        "geography"
+      ],
+      "keywords": [
+        "allocation",
+        "site selection",
+        "split",
+        "splits",
+        "frozen"
+      ],
+      "sections": [
+        "Canonical artifacts"
+      ],
+      "requires": [
+        "geo_context",
+        "geo_pointer"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "geo_pointer": {
+      "path": "notebooks/sandy/world_model/tiling/geographic_release/configs/canonical_artifact_v4.json",
+      "description": "Canonical frozen parent/exclusion artifact paths and identities",
+      "owns": "Exact geographic release IDs and hashes; preserve original checksums",
+      "status": "current",
+      "workflows": [
+        "geography"
+      ],
+      "keywords": [
+        "frozen",
+        "release",
+        "identity",
+        "audit",
+        "overlap"
+      ],
+      "sections": [],
+      "requires": [
+        "geo_context"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "geo_overlap": {
+      "path": "docs/world_model/tiling/overlap_exclusion_artifact_v4.md",
+      "description": "Positive-area overlap conflicts, exclusions and frozen release policy",
+      "owns": "Overlap exclusion contract",
+      "status": "current",
+      "workflows": [
+        "geography"
+      ],
+      "keywords": [
+        "overlap",
+        "leakage",
+        "exclusion"
+      ],
+      "sections": [],
+      "requires": [
+        "geo_pointer",
+        "geo_context"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "geo_runbook": {
+      "path": "notebooks/sandy/world_model/tiling/geographic_release/README.md",
+      "description": "Release generation, audit and publication interfaces",
+      "owns": "Geographic release commands and audit artifacts",
+      "status": "current",
+      "workflows": [
+        "geography"
+      ],
+      "keywords": [
+        "audit",
+        "release",
+        "allocation",
+        "validate",
+        "validation"
+      ],
+      "sections": [],
+      "requires": [
+        "geo_skill",
+        "geo_pointer"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "tiling_skill": {
+      "path": ".agents/skills/lecospy-tiling/SKILL.md",
+      "description": "Candidate validity, modality staging, alignment and raster publication requirements",
+      "owns": "Reusable tiling implementation and validation invariants",
+      "status": "instructions",
+      "workflows": [
+        "tiling"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [
+        "tiling_context"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "tiling_context": {
+      "path": ".agents/repo_context/world_model/multimodal_tiling.md",
+      "description": "Current modality packaging, producer contract, publication and remaining work",
+      "owns": "Adopted tiling products and producer status",
+      "status": "current",
+      "workflows": [
+        "tiling"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    },
+    "tiling_hpc": {
+      "path": ".agents/skills/lecospy-tiling/references/hpc-execution.md",
+      "description": "Container/Slurm execution, worker-local resources and evidence collection",
+      "owns": "Tiling HPC execution guidance",
+      "status": "current",
+      "workflows": [
+        "tiling"
+      ],
+      "keywords": [
+        "HPC",
+        "GDAL",
+        "CRS",
+        "raster",
+        "materialization",
+        "workers",
+        "performance",
+        "validation"
+      ],
+      "sections": [],
+      "requires": [
+        "tiling_skill"
+      ],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": false
+    },
+    "tiling_plan": {
+      "path": "docs/world_model/tiling/downstream_multimodal_tiling_plan.md",
+      "description": "Producer responsibilities, publication and statistics proposals",
+      "owns": "Implementation rationale; historical pending full-run statements are not current status",
+      "status": "mixed",
+      "workflows": [
+        "tiling"
+      ],
+      "keywords": [
+        "statistics",
+        "optimization",
+        "plan"
+      ],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [
+        "tiling_context"
+      ],
+      "always": false,
+      "entrypoint": false
+    },
+    "routing_docs": {
+      "path": "jev_routing/docs/jev-context.md",
+      "description": "LECOSPy routing, authority catalog, handoffs, controller and evaluations",
+      "owns": "Router usage, data boundaries and validation limits",
+      "status": "current",
+      "workflows": [
+        "routing"
+      ],
+      "keywords": [],
+      "sections": [],
+      "requires": [],
+      "superseded_by": [],
+      "always": false,
+      "entrypoint": true
+    }
+  }
+}
